@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mainapp.ProfileController">
+   <children>
+      <Text fill="#595656" layoutX="46.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello" textAlignment="CENTER" wrappingWidth="57.60000000000002">
+         <font>
+            <Font name="Cambria" size="22.0" />
+         </font>
+      </Text>
+      <Text fill="#4300d4" layoutX="112.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="167.73663330078125">
+         <font>
+            <Font name="Cambria" size="22.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="71.0" fitWidth="81.0" layoutX="41.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../png/tran.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="106.0" fitWidth="115.0" layoutX="28.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../png/cards.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="tableView" layoutX="196.0" layoutY="43.0" prefHeight="314.0" prefWidth="361.0" />
+      <ImageView fitHeight="63.0" fitWidth="92.0" layoutX="12.0" layoutY="326.0" onMouseClicked="#backAction2" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../png/back.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
