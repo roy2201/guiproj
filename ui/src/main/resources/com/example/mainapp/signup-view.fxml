@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="383.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mainapp.SignupController">
    <children>
-      <TextField fx:id="cpasswordfield" layoutX="152.0" layoutY="177.0" promptText="confirm password">
+      <TextField fx:id="confirmPass" layoutX="152.0" layoutY="177.0" promptText="confirm password">
          <font>
             <Font name="Cambria" size="14.0" />
          </font></TextField>
@@ -18,11 +18,11 @@
          <font>
             <Font name="Cambria" size="14.0" />
          </font></Button>
-      <TextField fx:id="unamefield" layoutX="152.0" layoutY="59.0" promptText="usename">
+      <TextField fx:id="username" layoutX="152.0" layoutY="59.0" promptText="usename">
          <font>
             <Font name="Cambria" size="14.0" />
          </font></TextField>
-      <TextField fx:id="passwordfield" layoutX="152.0" layoutY="116.0" promptText="password">
+      <TextField fx:id="pass" layoutX="152.0" layoutY="116.0" promptText="password">
          <font>
             <Font name="Cambria" size="14.0" />
          </font></TextField>

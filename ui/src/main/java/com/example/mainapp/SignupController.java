@@ -22,13 +22,13 @@ public class SignupController implements Initializable {
     SignupModel signUpModel;
 
     @FXML
-    private TextField cpasswordfield;
+    private TextField confirmPass;
     @FXML
     private Label errorLabel;
     @FXML
-    private TextField passwordfield;
+    private TextField pass;
     @FXML
-    private TextField unamefield;
+    private TextField username;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,7 +37,7 @@ public class SignupController implements Initializable {
 
     @FXML
     void backToLoginAction(MouseEvent event) {
-        ((Node)event.getSource()).getScene().getWindow().hide();
+        ((Node) event.getSource()).getScene().getWindow().hide();
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
         Scene scene = null;
@@ -53,21 +53,19 @@ public class SignupController implements Initializable {
 
     @FXML
     void registerClient(ActionEvent event) {
-        if(unamefield.getText().isBlank() || passwordfield.getText().isBlank()) {
+        if (username.getText().isBlank() || pass.getText().isBlank()) {
             errorLabel.setText("blank info ");
             errorLabel.setTextFill(Color.RED);
-            return ;
+            return;
         }
-        if(passwordfield.getText().compareTo(cpasswordfield.getText()) != 0) {
+        if (pass.getText().compareTo(confirmPass.getText()) != 0) {
             errorLabel.setText("Password mismatch");
             errorLabel.setTextFill(Color.RED);
-            return ;
-        }
-        else {
-            if(signUpModel.registerClient(unamefield.getText(),passwordfield.getText()) == 1) {
+        } else {
+            if (signUpModel.registerClient(username.getText(), pass.getText()) == 1) {
                 errorLabel.setText("Registered");
                 errorLabel.setTextFill(Color.GREEN);
-                ((Node)event.getSource()).getScene().getWindow().hide();
+                ((Node) event.getSource()).getScene().getWindow().hide();
                 Stage stage = new Stage();
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
                 Scene scene = null;
@@ -79,8 +77,7 @@ public class SignupController implements Initializable {
                 stage.setTitle("Login!");
                 stage.setScene(scene);
                 stage.show();
-            }
-            else {
+            } else {
                 errorLabel.setText("username taken");
                 errorLabel.setTextFill(Color.RED);
             }

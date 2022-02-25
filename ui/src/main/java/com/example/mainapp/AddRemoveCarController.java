@@ -1,7 +1,6 @@
 package com.example.mainapp;
 
 import Models.AddRemoveCarModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,85 +12,80 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AddRemoveCarController {
 
-    private AddRemoveCarModel addRemoveCarModel = new AddRemoveCarModel();
+    final private AddRemoveCarModel addRemoveCarModel = new AddRemoveCarModel();
 
     @FXML
-    private Button btnadd;
+    private Button btnAdd;
     @FXML
-    private Button btnback;
+    private Button btnRemove;
     @FXML
-    private Button btnremove;
+    private Label labelAdd;
     @FXML
-    private Label labeladd;
+    private Label labelRemove;
     @FXML
-    private Label labelremove;
+    private TextField txtBranch;
     @FXML
-    private TextField txtbranch;
+    private TextField txtCarId;
     @FXML
-    private TextField txtcarid;
+    private TextField txtColor;
     @FXML
-    private TextField txtcolor;
+    private TextField txtModel;
     @FXML
-    private TextField txtmodel;
+    private TextField txtPrice;
     @FXML
-    private TextField txtprice;
+    private TextField txtType;
     @FXML
-    private TextField txttype;
-    @FXML
-    private TextField txtyear;
+    private TextField txtYear;
 
-    public void AddCarClicked(ActionEvent event){
-        if(txtbranch.getText().isEmpty() || txtcolor.getText().isEmpty() || txtyear.getText().isEmpty() || txtmodel.getText().isEmpty() || txtprice.getText().isEmpty() || txttype.getText().isEmpty()){
-            labeladd.setText("Missing info");
+    private void resetTextFields(TextField... t) {
+        for (TextField textField : t) {
+            textField.setText("");
         }
-        else {
-            addRemoveCarModel.AddCar(txtbranch.getText(), txtcolor.getText(), txtyear.getText(), txtmodel.getText(), txtprice.getText(), txttype.getText());
-            labeladd.setText("Car is added successfully");
-        }
-        labelremove.setText("");
-        txtbranch.setText("");
-        txtcolor.setText("");
-        txtyear.setText("");
-        txtmodel.setText("");
-        txtprice.setText("");
-        txttype.setText("");
     }
 
-    public void RemoveCarClicked(ActionEvent event){
-
-        int errorcode;
-        String msg = "";
-
-        if(txtcarid.getText().isEmpty()){
-            labelremove.setText("Missing info");
-        }
-        else {
-            errorcode = addRemoveCarModel.RemoveCar(txtcarid.getText());
-            if (errorcode == 0) {
-                msg = "No car with such ID to be removed";
-            }
-            else if (errorcode == 1) {
-                msg = "The car is removed successfully";
-            }
-            labelremove.setText(msg);
-            txtcarid.setText("");
-        }
-       labeladd.setText("");
+    private void resetLabel(Label l) {
+        l.setText("");
     }
 
-    public void BackClicked(MouseEvent event){
-        ((Node)event.getSource()).getScene().getWindow().hide();
+    @FXML
+    void AddCarClicked() {
+        if (txtBranch.getText().isEmpty() || txtColor.getText().isEmpty() || txtYear.getText().isEmpty() || txtModel.getText().isEmpty() || txtPrice.getText().isEmpty() || txtType.getText().isEmpty()) {
+            labelAdd.setText("Missing info");
+        } else {
+            addRemoveCarModel.AddCar(txtBranch.getText(), txtColor.getText(), txtYear.getText(), txtModel.getText(), txtPrice.getText(), txtType.getText());
+            labelAdd.setText("Car is added successfully");
+        }
+        resetLabel(labelAdd);
+        resetTextFields(txtBranch, txtColor, txtYear, txtModel, txtPrice, txtType);
+    }
+
+    public void RemoveCarClicked() {
+        int errorCode;
+        AtomicReference<String> msg = new AtomicReference<>("");
+        if (txtCarId.getText().isEmpty()) {
+            labelRemove.setText("Missing info");
+        } else {
+            errorCode = addRemoveCarModel.RemoveCar(txtCarId.getText());
+            if (errorCode == 0) {
+                msg.set("No car with such ID to be removed");
+            } else if (errorCode == 1) {
+                msg.set("The car is removed successfully");
+            }
+            labelRemove.setText(msg.get());
+            txtCarId.setText("");
+        }
+        labelAdd.setText("");
+    }
+
+    public void BackClicked(MouseEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("admin-view.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Car Mode");
         stage.setScene(scene);
         stage.show();

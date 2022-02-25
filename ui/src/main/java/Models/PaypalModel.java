@@ -3,8 +3,6 @@ package Models;
 import Interfaces.PaymentStrategy;
 import com.example.mainapp.Database;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.*;
 
@@ -24,24 +22,24 @@ public class PaypalModel implements PaymentStrategy {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        assert db != null;
         con = db.connect();
 
         this.email = email;
         this.password = password;
     }
 
-    public PaypalModel(String email, String ppass, int balance) {
+    public PaypalModel(String email, String pass, int balance) {
         this.email = email;
-        this.password = ppass;
+        this.password = pass;
         this.amount = balance;
     }
 
     @Override
     public boolean pay(int amount) {
         String query = "exec spPaypal ?, ?, ?";
-        CallableStatement cst = null;
         try {
-            cst = con.prepareCall(query);
+            CallableStatement cst = con.prepareCall(query);
             cst.setInt(1,amount);
             cst.setString(2, this.email);
             System.out.println("email : "+ this.email);
@@ -64,8 +62,8 @@ public class PaypalModel implements PaymentStrategy {
         String query = "exec isValidPaypal ?, ?, ?, ?";
         try {
             CallableStatement cst = con.prepareCall(query);
-            cst.setString(1, this.email);
-            cst.setString(2, this.password);
+            cst.setString(1, email);
+            cst.setString(2, password);
             cst.registerOutParameter(3, Types.INTEGER);
             cst.setInt(4, LoginModel.getLogged());
             cst.execute();
@@ -77,7 +75,7 @@ public class PaypalModel implements PaymentStrategy {
         return false;
     }
 
-    public void addTransaction() {
+    private void addTransaction() {
         String query = "exec spAddTran ?, ?, ?, ?";
         try {
             CallableStatement cst = con.prepareCall(query);

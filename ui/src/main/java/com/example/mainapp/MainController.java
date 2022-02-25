@@ -25,11 +25,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-
 public class MainController implements Initializable {
 
-    private LoginModel loginModel = new LoginModel();
-    private MainModel mainModel = new MainModel();
+    private final LoginModel loginModel = new LoginModel();
+    private final MainModel mainModel = new MainModel();
 
     @FXML
     private ImageView profileImageView;
@@ -65,23 +64,6 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    public void subscribe(ActionEvent event) {
-        errorLabel.setText("You are now subscribed");
-        errorLabel.setTextFill(Color.PURPLE);
-        /** add customer object to file / try it with one customer **/
-        /** mainModel.serializeCustomer(customer); **/
-        /** customer is added to binary file **/
-        /** each time a login is make we add a customer to the file **/
-        /** use equals method to compare loaded object with current object **/
-        /** if not equals then add , otherwise don't **/
-        //Customer ct = LoginController.getCustomerObject();
-        serializeCustomer();
-    }
-
-    public void serializeCustomer() {
-    }
-
-    @FXML
     public void detailedViewAction(ActionEvent event) {
         System.out.println("clicked");
         ((Node) event.getSource()).getScene().getWindow().hide();
@@ -98,7 +80,7 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    public void viewAllCars()  {
+    public void viewAllCars() {
         carsTable.getColumns().clear();
         ResultSet rs = null;
         errorLabel.setText("");
@@ -107,7 +89,7 @@ public class MainController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        caridColumn.setCellValueFactory(new PropertyValueFactory<>("carid"));
+        caridColumn.setCellValueFactory(new PropertyValueFactory<>("carId"));
         modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
@@ -132,28 +114,27 @@ public class MainController implements Initializable {
     public void filterResults(ActionEvent event) {
         String errorString = "";
         carsTable.getColumns().clear();
-        ResultSet rs = null;
         errorLabel.setText("");
-        if(locationComboBox.getValue() == null) {
+        if (locationComboBox.getValue() == null) {
             errorString += "please choose a location";
         }
-        if(modelComboBox.getValue() == null) {
+        if (modelComboBox.getValue() == null) {
             errorString += "\nplease choose a model";
         }
-        if(errorString != "") {
+        if (!errorString.equals("")) {
             errorLabel.setTextFill(Color.RED);
             errorLabel.setText(errorString);
-            return ;
+            return;
         }
         try {
-            rs = mainModel.loadFilteredResults(modelComboBox.getValue().toString(), locationComboBox.getValue().toString());
-            caridColumn.setCellValueFactory(new PropertyValueFactory<CarModel, Integer>("carid"));
-            modelColumn.setCellValueFactory(new PropertyValueFactory<CarModel, String>("model"));
-            typeColumn.setCellValueFactory(new PropertyValueFactory<CarModel, String>("type"));
-            yearColumn.setCellValueFactory(new PropertyValueFactory<CarModel, Integer>("year"));
-            colorColumn.setCellValueFactory(new PropertyValueFactory<CarModel, String>("color"));
-            locationColumn.setCellValueFactory(new PropertyValueFactory<CarModel, String>("location"));
-            priceColumn.setCellValueFactory(new PropertyValueFactory<CarModel, Integer>("price"));
+            ResultSet rs = mainModel.loadFilteredResults(modelComboBox.getValue(), locationComboBox.getValue());
+            caridColumn.setCellValueFactory(new PropertyValueFactory<>("carid"));
+            modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
+            typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+            yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
+            colorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
+            locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
             carsTable.getColumns().addAll(caridColumn, modelColumn, typeColumn, yearColumn, colorColumn, locationColumn, priceColumn);
             ObservableList<CarModel> car = FXCollections.observableArrayList();
             boolean found = false;
@@ -175,16 +156,15 @@ public class MainController implements Initializable {
                 errorLabel.setText("Found matches");
                 errorLabel.setTextFill(Color.GREEN);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void viewAllBranches() {
-        ResultSet rs = null;
-        ArrayList<String> branches = new ArrayList<String>();
+    private void viewAllBranches() {
+        ArrayList<String> branches = new ArrayList<>();
         try {
-            rs = mainModel.loadBranches();
+            ResultSet rs = mainModel.loadBranches();
             while (rs.next()) {
                 branches.add(rs.getString("bname"));
             }
@@ -194,11 +174,10 @@ public class MainController implements Initializable {
         locationComboBox.getItems().addAll(branches);
     }
 
-    public void viewAllModels() {
-        ResultSet rs = null;
+    private void viewAllModels() {
         ArrayList<String> models = new ArrayList<>();
         try {
-            rs = mainModel.loadModels();
+            ResultSet rs = mainModel.loadModels();
             while (rs.next()) {
                 models.add(rs.getString("cmodel"));
             }
@@ -212,11 +191,10 @@ public class MainController implements Initializable {
     void handleProceed(MouseEvent event) {
         errorLabel.setText("");
         CarModel c = carsTable.getSelectionModel().getSelectedItem();
-        if(c == null) {
+        if (c == null) {
             errorLabel.setText("Please select a car !");
         } else {
-            // save carid then go to detailed view
-            DCModel.setCid(c.getCarid());
+            DCModel.setCid(c.getCarId());
             ((Node) event.getSource()).getScene().getWindow().hide();
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("detailed-view.fxml"));
@@ -250,7 +228,7 @@ public class MainController implements Initializable {
 
     @FXML
     void handleLogout(MouseEvent event) {
-        int cid = loginModel.getLogged();
+        int cid = LoginModel.getLogged();
         loginModel.logout(cid);
         ((Node) event.getSource()).getScene().getWindow().hide();
         Stage stage = new Stage();

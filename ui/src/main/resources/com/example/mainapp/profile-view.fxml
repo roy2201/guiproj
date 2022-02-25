@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,17 +15,12 @@
             <Font name="Cambria" size="22.0" />
          </font>
       </Text>
-      <Text fill="#4300d4" layoutX="112.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="167.73663330078125">
-         <font>
-            <Font name="Cambria" size="22.0" />
-         </font>
-      </Text>
-      <ImageView fitHeight="71.0" fitWidth="81.0" layoutX="41.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="71.0" fitWidth="81.0" layoutX="41.0" layoutY="106.0" onMouseClicked="#showTranAction" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../png/tran.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="106.0" fitWidth="115.0" layoutX="28.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="106.0" fitWidth="115.0" layoutX="28.0" layoutY="200.0" onMouseClicked="#showCardsAction" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../png/cards.png" />
          </image>
@@ -35,5 +31,10 @@
             <Image url="@../../../png/back.png" />
          </image>
       </ImageView>
+      <Label fx:id="usernameLabel" layoutX="112.0" layoutY="15.0" prefHeight="27.0" prefWidth="132.0" text="Label" textFill="#9923a6">
+         <font>
+            <Font name="Cambria" size="22.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

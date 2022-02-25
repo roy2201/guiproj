@@ -6,13 +6,13 @@ import java.sql.*;
 
 public class LoginModel {
 
-    Database db;
-    Connection con;
+    private Database db;
+    private final Connection con;
 
     private static int cid;
 
-    public static int admin_logged_id;
-    public static int secretary_logged_id;
+    static int admin_logged_id;
+    static int secretary_logged_id;
     public static int admin_secreatry;
 
     public LoginModel() {
@@ -36,9 +36,8 @@ public class LoginModel {
         int errorcode = 0;
         cid = -1;
         String query = "exec spLogin ?, ?, ?, ?";
-        CallableStatement cs = null;
         try {
-            cs = con.prepareCall(query);
+            CallableStatement cs = con.prepareCall(query);
             cs.setString(1,uname);
             cs.setString(2,password);
             cs.registerOutParameter(3, Types.INTEGER);
@@ -55,9 +54,8 @@ public class LoginModel {
     public void logout(int cid) {
         String query = "exec spLogout ?";
         System.out.println("test");
-        CallableStatement cst = null;
         try {
-            cst = con.prepareCall(query);
+            CallableStatement cst = con.prepareCall(query);
             cst.setInt(1,cid);
             cst.execute();
         } catch (SQLException e) {
@@ -66,11 +64,10 @@ public class LoginModel {
     }
 
     public int validAdmin(String adminName, String adminPass) {
-        CallableStatement cs = null;
         int errorcode = 0;
         String query = "exec dbo.spAdminLogin ?,?,?,?";
         try {
-            cs = con.prepareCall(query);
+            CallableStatement cs = con.prepareCall(query);
             cs.setString(1, adminName);
             cs.setString(2, adminPass);
             cs.registerOutParameter(3, Types.INTEGER);
@@ -88,11 +85,10 @@ public class LoginModel {
     }
 
     public int validSecretary(String secreatryName, String secretaryPass) {
-        CallableStatement cs = null;
         int errorcode = 0;
         String query = "exec dbo.spSecretaryLogin ?,?,?,?";
         try {
-            cs = con.prepareCall(query);
+            CallableStatement cs = con.prepareCall(query);
             cs.setString(1, secreatryName);
             cs.setString(2, secretaryPass);
 

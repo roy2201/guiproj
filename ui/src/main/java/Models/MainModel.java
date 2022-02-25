@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class MainModel {
 
-    Connection con;
+    private Connection con;
 
     public MainModel() {
         try {

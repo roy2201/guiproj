@@ -13,7 +13,7 @@ public class DCModel {
     private static int cid;
     private static int nbDays;
 
-    Connection con;
+    private final Connection con;
 
     public DCModel() {
         Database db = null;
@@ -22,6 +22,7 @@ public class DCModel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        assert db != null;
         con = db.connect();
     }
 

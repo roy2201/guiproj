@@ -9,26 +9,22 @@ import java.sql.Types;
 
 public class AddRemoveCarModel {
 
-    Database db;
-    Connection con;
+    private Connection con;
 
     public AddRemoveCarModel() {
         try {
-            db = Database.getInstance();
+            Database db = Database.getInstance();
             con = db.connect();
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
     }
 
     public void AddCar(String branch, String color, String year, String model, String price, String type) {
-
         CallableStatement cs = null;
         String query = "exec dbo.spAddCar ?,?,?,?,?,?";
         try {
             cs = con.prepareCall(query);
-
             cs.setInt(1, Integer.parseInt(branch));
             cs.setString(2, color);
             cs.setString(3, year);
@@ -36,12 +32,10 @@ public class AddRemoveCarModel {
             cs.setString(5, price);
             cs.setString(6, type);
             cs.execute();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
     public int RemoveCar(String carid) {
         int errorcode =0;
@@ -53,14 +47,10 @@ public class AddRemoveCarModel {
             cs.registerOutParameter(2, Types.INTEGER);
             cs.execute();
             errorcode = cs.getInt(2);
-
             }
-
             catch (SQLException e) {
                 e.printStackTrace();
             }
-
-
         return errorcode;
     }
 

@@ -7,8 +7,8 @@ import java.sql.*;
 
 public class PaymentContext {
 
-    Connection con;
-    PaymentStrategy paymentStrategy;
+    final private Connection con;
+    private PaymentStrategy paymentStrategy;
 
     public PaymentContext() {
         Database db = null;
@@ -17,6 +17,7 @@ public class PaymentContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        assert db != null;
         con = db.connect();
     }
 
@@ -29,12 +30,11 @@ public class PaymentContext {
     }
 
     public boolean checkPremium(int cid) {
-        CallableStatement cst = null;
         String query = "exec isPremium ?, ?";
         boolean premium = false;
         try {
-            cst = con.prepareCall(query);
-            cst.setInt(1, LoginModel.getLogged());
+            CallableStatement cst = con.prepareCall(query);
+            cst.setInt(1, cid);
             cst.registerOutParameter(2, Types.BOOLEAN);
             cst.execute();
             premium = cst.getBoolean(2);
@@ -45,11 +45,10 @@ public class PaymentContext {
     }
 
     public int calculateTotal(int carId, int nbDays) {
-        CallableStatement cst = null;
         String query = "{ ? = call fnViewReceipt ( ?, ? ) }";
         int amount = -1;
         try {
-            cst = con.prepareCall(query);
+            CallableStatement cst = con.prepareCall(query);
             cst.registerOutParameter(1, Types.INTEGER);
             cst.setInt(2,carId);
             cst.setInt(3, nbDays);

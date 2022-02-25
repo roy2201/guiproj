@@ -12,6 +12,7 @@ import java.sql.Types;
 
 @Getter
 @Setter
+@SuppressWarnings("all")
 public class CreditCardModel implements PaymentStrategy {
 
     private int cardNumber, cvv;

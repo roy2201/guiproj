@@ -16,11 +16,11 @@
 <AnchorPane prefHeight="470.0" prefWidth="720.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mainapp.AdminController">
    <children>
       <TableView fx:id="tableInfo" layoutX="358.0" layoutY="126.0" prefHeight="330.0" prefWidth="349.0" style="-fx-border-color: gray;" />
-      <TextField fx:id="txtusername" layoutX="33.0" layoutY="64.0" promptText="username" style="-fx-border-color: gray;">
+      <TextField fx:id="txtUserName" layoutX="33.0" layoutY="64.0" promptText="username" style="-fx-border-color: gray;">
          <font>
             <Font name="Cambria" size="14.0" />
          </font></TextField>
-      <PasswordField fx:id="txtpassword" layoutX="227.0" layoutY="65.0" promptText="password" style="-fx-border-color: gray;">
+      <PasswordField fx:id="txtPassword" layoutX="227.0" layoutY="65.0" promptText="password" style="-fx-border-color: gray;">
          <font>
             <Font size="14.0" />
          </font></PasswordField>
@@ -33,15 +33,15 @@
             <Image url="@../../../png/cont.png" />
          </image>
       </ImageView>
-      <Label fx:id="labelinfo" layoutX="33.0" layoutY="14.0" prefHeight="38.0" prefWidth="370.0" />
-      <TextField fx:id="txtid" layoutX="33.0" layoutY="126.0" promptText="to remove id" style="-fx-border-color: gray;">
+      <Label fx:id="labelInfo" layoutX="33.0" layoutY="14.0" prefHeight="38.0" prefWidth="370.0" />
+      <TextField fx:id="txtId" layoutX="33.0" layoutY="126.0" promptText="to remove id" style="-fx-border-color: gray;">
          <font>
             <Font name="Cambria" size="14.0" />
          </font>
       </TextField>
       <VBox layoutX="183.0" layoutY="188.0" prefHeight="62.0" prefWidth="86.0">
          <children>
-            <RadioButton fx:id="rbtnadmin" mnemonicParsing="false" text="Admin">
+            <RadioButton fx:id="radioAdminBtn" mnemonicParsing="false" text="Admin">
                <toggleGroup>
                   <ToggleGroup fx:id="employees" />
                </toggleGroup>
@@ -49,12 +49,12 @@
                   <Font name="Cambria" size="14.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="rbtnsecretary" mnemonicParsing="false" text="Secretary" toggleGroup="$employees">
+            <RadioButton fx:id="radioSecretaryBtn" mnemonicParsing="false" text="Secretary" toggleGroup="$employees">
                <font>
                   <Font name="Cambria" size="14.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="rbtndriver" mnemonicParsing="false" text="Driver" toggleGroup="$employees">
+            <RadioButton fx:id="radioDriverBtn" mnemonicParsing="false" text="Driver" toggleGroup="$employees">
                <font>
                   <Font name="Cambria" size="14.0" />
                </font>
@@ -66,17 +66,17 @@
             <Image url="@../../../png/logout.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnremove" layoutX="33.0" layoutY="282.0" mnemonicParsing="false" onAction="#RemovedEmployeeClicked" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: gray;" text="Remove" textFill="#563939">
+      <Button fx:id="btnRemove" layoutX="33.0" layoutY="282.0" mnemonicParsing="false" onAction="#RemovedEmployeeClicked" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: gray;" text="Remove" textFill="#563939">
          <font>
             <Font name="Cambria" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnadd" layoutX="33.0" layoutY="235.0" mnemonicParsing="false" onAction="#AddEmployeeClicked" prefHeight="30.0" prefWidth="126.0" style="-fx-border-color: gray;" text="Add">
+      <Button fx:id="btnAdd" layoutX="33.0" layoutY="235.0" mnemonicParsing="false" onAction="#AddEmployeeClicked" prefHeight="30.0" prefWidth="126.0" style="-fx-border-color: gray;" text="Add">
          <font>
             <Font name="Cambria" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnview" layoutX="33.0" layoutY="188.0" mnemonicParsing="false" onAction="#ViewEmployeeClicked" prefHeight="30.0" prefWidth="126.0" style="-fx-border-color: gray;" text="View">
+      <Button fx:id="btnView" layoutX="33.0" layoutY="188.0" mnemonicParsing="false" onAction="#ViewEmployeeClicked" prefHeight="30.0" prefWidth="126.0" style="-fx-border-color: gray;" text="View">
          <font>
             <Font name="Cambria" size="14.0" />
          </font>

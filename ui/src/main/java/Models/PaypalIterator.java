@@ -4,12 +4,12 @@ import Interfaces.Iterator;
 
 import java.util.List;
 
-public class PaypalIterator implements Iterator {
+class PaypalIterator implements Iterator {
 
     private final List<PaypalModel> plist;
     private int pos;
 
-    public PaypalIterator(List<PaypalModel> plist) {
+    PaypalIterator(List<PaypalModel> plist) {
         this.plist = plist;
     }
 

@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -22,7 +21,7 @@ import java.util.ResourceBundle;
 
 public class ChannelController implements Initializable {
 
-    private ChannelModel model;
+    private final ChannelModel model;
 
     @FXML
     private ListView<String> commentListView;
@@ -30,9 +29,6 @@ public class ChannelController implements Initializable {
     private TextField commentBox;
     @FXML
     private Label errorLabel;
-    @FXML
-    private Button backButton;
-
 
     public ChannelController() {
         System.out.println("Constructor ++++++++++++");
@@ -110,9 +106,9 @@ public class ChannelController implements Initializable {
     /* inner class customer */
     private class Customer implements Observer {
 
-        private ChannelModel model;
+        final private ChannelModel model;
 
-        public Customer(ChannelModel model) {
+        Customer(ChannelModel model) {
             this.model = model;
         }
 

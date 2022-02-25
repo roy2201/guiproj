@@ -44,7 +44,6 @@ public class PaymentController implements Initializable {
     private Label errorLabel;
 
     private int total;
-    private boolean premium;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,7 +51,7 @@ public class PaymentController implements Initializable {
         int nbDays = DCModel.getNbDays();
         int carId = DCModel.getCarId();
         total = paymentContext.calculateTotal(carId, nbDays);
-        premium = paymentContext.checkPremium(LoginModel.getLogged());
+        boolean premium = paymentContext.checkPremium(LoginModel.getLogged());
         ArrayList<String> receipt = new ArrayList<>();
         receipt.add("Price : "+ total +" USD");
         float discount = 0.0F;

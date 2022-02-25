@@ -9,7 +9,7 @@ public class CreditCardIterator implements Iterator {
     private final List<CreditCardModel> cards;
     private int pos;
 
-    public CreditCardIterator(List<CreditCardModel> cards) {
+    CreditCardIterator(List<CreditCardModel> cards) {
         this.cards = cards;
     }
 

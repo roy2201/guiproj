@@ -10,13 +10,14 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
 import java.sql.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class ManagerModel extends Employee{
+public class ManagerModel extends Employee {
 
-    Database db;
-    Connection con;
+    private Database db;
+    private Connection con;
 
-    public ManagerModel(){
+    public ManagerModel() {
         try {
             db = Database.getInstance();
             con = db.connect();
@@ -24,217 +25,151 @@ public class ManagerModel extends Employee{
             e.printStackTrace();
 
         }
-
     }
 
-    public ManagerModel(String username,String password ) {
-
+    public ManagerModel(String username, String password) {
         super(username, password);
-
         try {
             db = Database.getInstance();
             con = db.connect();
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
     }
-
-
 
     public int AddEmployee(Employee e, int adding, int added) {
-
-        CallableStatement cs = null;
-        int errorcode = 0;
-
+        CallableStatement cs;
+        int errorCode = 0;
         if (adding == 1 && added == 1) {
-
             String query = "exec dbo.spAdminAddAdmin ?,?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setInt(1, LoginModel.admin_logged_id);
                 cs.setString(2, e.getUsername());
                 cs.setString(3, e.getPassword());
                 cs.registerOutParameter(4, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(4);
-
-               //return errorcode;
-
+                errorCode = cs.getInt(4);
+                //return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        else if(adding == 1 && added == 2){
-
+        } else if (adding == 1 && added == 2) {
             String query = "exec dbo.spAdminAddSecretary ?,?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setInt(1, LoginModel.admin_logged_id);
                 cs.setString(2, e.getUsername());
                 cs.setString(3, e.getPassword());
                 cs.registerOutParameter(4, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(4);
-
-               // return errorcode;
-
+                errorCode = cs.getInt(4);
+                // return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        else if(adding == 1 && added == 3){
-
+        } else if (adding == 1 && added == 3) {
             String query = "exec dbo.spAdminAddDriver ?,?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setInt(1, LoginModel.admin_logged_id);
                 cs.setString(2, e.getUsername());
                 cs.setString(3, e.getPassword());
                 cs.registerOutParameter(4, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(4);
-
-                //return errorcode;
-
+                errorCode = cs.getInt(4);
+                //return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        else if(adding == 2 && added == 2){
-
+        } else if (adding == 2 && added == 2) {
             String query = "exec dbo.spSecretaryAddSecretary ?,?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setString(1, String.valueOf(LoginModel.secretary_logged_id));
                 cs.setString(2, e.getUsername());
                 cs.setString(3, e.getPassword());
                 cs.registerOutParameter(4, Types.INTEGER);
                 cs.execute();
-
-                errorcode = cs.getInt(4);
-
-                //return errorcode;
-
+                errorCode = cs.getInt(4);
+                //return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        else if(adding == 2 && added == 3){
-
+        } else if (adding == 2 && added == 3) {
             String query = "exec dbo.spSecretaryAddDriver ?,?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setInt(1, LoginModel.secretary_logged_id);
                 cs.setString(2, e.getUsername());
                 cs.setString(3, e.getPassword());
                 cs.registerOutParameter(4, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(4);
-
-               // return errorcode;
-
+                errorCode = cs.getInt(4);
+                // return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
-
-        return errorcode;
+        return errorCode;
     }
 
-    //////////////////////////////////////////////////////////////////////////
-
-    public int RemoveEmployee(String id_to_remove, int removing,int removed){
-
-        CallableStatement cs = null;
-        int errorcode = 0;
-
+    public int RemoveEmployee(String id_to_remove, int removing, int removed) {
+        CallableStatement cs;
+        AtomicInteger errorCode = new AtomicInteger();
         if (removing == 1 && removed == 1) {
-
             String query = "exec dbo.spAdminRemoveAdmin ?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setInt(1, LoginModel.admin_logged_id);
                 cs.setString(2, id_to_remove);
                 cs.registerOutParameter(3, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(3);
-
-                //return errorcode;
-
+                errorCode.set(cs.getInt(3));
+                //return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        else if (removing == 1 && removed == 2) {
-
+        } else if (removing == 1 && removed == 2) {
             String query = "exec dbo.spAdminRemoveSecretary ?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setInt(1, LoginModel.admin_logged_id);
                 cs.setString(2, id_to_remove);
                 cs.registerOutParameter(3, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(3);
-
-                //return errorcode;
-
+                errorCode.set(cs.getInt(3));
+                //return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        else if (removing == 1 && removed == 3) {
-
+        } else if (removing == 1 && removed == 3) {
             String query = "exec dbo.spAdminRemoveDriver ?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setInt(1, LoginModel.admin_logged_id);
                 cs.setString(2, id_to_remove);
                 cs.registerOutParameter(3, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(3);
-
-                //return errorcode;
-
+                errorCode.set(cs.getInt(3));
+                //return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        else if (removing == 2 && removed == 2) {
-
+        } else if (removing == 2 && removed == 2) {
             String query = "exec dbo.spSecretaryRemoveSecretary ?,?,?";
             try {
                 cs = con.prepareCall(query);
-
                 cs.setInt(1, LoginModel.secretary_logged_id);
                 cs.setString(2, id_to_remove);
                 cs.registerOutParameter(3, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(3);
-
-                //return errorcode;
-
+                errorCode.set(cs.getInt(3));
+                //return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        else if (removing == 2 && removed == 3) {
+        } else if (removing == 2 && removed == 3) {
 
             String query = "exec dbo.spSecretaryRemoveDriver ?,?,?";
             try {
@@ -244,32 +179,20 @@ public class ManagerModel extends Employee{
                 cs.setString(2, id_to_remove);
                 cs.registerOutParameter(3, Types.INTEGER);
                 cs.execute();
-                errorcode = cs.getInt(3);
-
-                //return errorcode;
-
+                errorCode.set(cs.getInt(3));
+                //return errorCode;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
-
-
-
-        return errorcode;
+        return errorCode.get();
     }
 
-    ///////////////////////////////////////////////////////////////////
+    private ResultSet rs;
 
-    private ObservableList<ObservableList> data;
-    ResultSet rs ;
-
-    public void ViewEmployee(TableView tb,int viewing, int viewed) {
-
-        PreparedStatement ps = null;
-
-
+    public void ViewEmployee(TableView tb, int viewing, int viewed) {
+        PreparedStatement ps;
         if (viewing == 1 && viewed == 1) {
-
             String query = "select * from fnAdminShowAdmin(?)";
             try {
                 ps = con.prepareStatement(query);
@@ -279,9 +202,7 @@ public class ManagerModel extends Employee{
                 ex.printStackTrace();
             }
         }
-
         if (viewing == 1 && viewed == 2) {
-
             String query = "select * from fnAdminShowSecretary(?)";
             try {
                 ps = con.prepareStatement(query);
@@ -291,7 +212,6 @@ public class ManagerModel extends Employee{
                 ex.printStackTrace();
             }
         }
-
         if (viewing == 1 && viewed == 3) {
 
             String query = "select * from fnAdminShowDriver(?)";
@@ -303,9 +223,7 @@ public class ManagerModel extends Employee{
                 ex.printStackTrace();
             }
         }
-
         if (viewing == 2 && viewed == 2) {
-
             String query = "select * from fnSecretaryShowSecretary(?)";
             try {
                 ps = con.prepareStatement(query);
@@ -315,7 +233,6 @@ public class ManagerModel extends Employee{
                 ex.printStackTrace();
             }
         }
-
         if (viewing == 2 && viewed == 3) {
 
             String query = "select * from fnSecretaryShowDriver(?)";
@@ -329,15 +246,11 @@ public class ManagerModel extends Employee{
         }
         if (rs != null) {
             try {
-                data = FXCollections.observableArrayList();
+                ObservableList<ObservableList> data = FXCollections.observableArrayList();
                 for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
                     final int j = i;
                     TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
-                    col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                        public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                            return new SimpleStringProperty(param.getValue().get(j).toString());
-                        }
-                    });
+                    col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                     tb.getColumns().addAll(col);
                     System.out.println("Column [" + i + "] ");
                 }
@@ -355,6 +268,5 @@ public class ManagerModel extends Employee{
             }
         }
     }
-
 
 }

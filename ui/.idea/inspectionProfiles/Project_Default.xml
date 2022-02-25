@@ -10,6 +10,7 @@
       <option name="myAllowedSuppressions">
         <list>
           <option value="rawtypes" />
+          <option value="all" />
         </list>
       </option>
     </inspection_tool>

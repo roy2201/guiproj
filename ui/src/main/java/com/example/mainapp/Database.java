@@ -9,15 +9,15 @@ import java.util.ArrayList;
 
 public class Database {
 
-    public static Database databaseInstance;
+    private static Database databaseInstance;
     public static Connection connection;
 
     private Database() {
     }
 
-    public static final String USERNAME = "sa";
-    public static final String PASSWORD = "rooter-01101";
-    public static final String CONN_STR = "jdbc:sqlserver://localhost\\sqlexpress:1433;databaseName=sparkrentdb";
+    private static final String USERNAME = "sa";
+    private static final String PASSWORD = "rooter-01101";
+    private static final String CONN_STR = "jdbc:sqlserver://localhost\\sqlexpress:1433;databaseName=sparkrentdb";
 
     public static Database getInstance() throws SQLException {
         if (databaseInstance == null) {
@@ -58,9 +58,9 @@ public class Database {
         while(true) {
             try {
                 assert rs != null;
-                if (!rs.next()) break;;
-                comments.add(rs.getString("cuname").toString()
-                        + ": "+(rs.getString("ctvalue").toString()));
+                if (!rs.next()) break;
+                comments.add(rs.getString("cuname")
+                        + ": "+(rs.getString("ctvalue")));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -72,12 +72,11 @@ public class Database {
         ArrayList<CreditCardModel> cards = new ArrayList<>();
         String query = "exec spGetCards ?";
         try {
-            CreditCardModel cr = null;
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-                cr = new CreditCardModel(
+                CreditCardModel cr = new CreditCardModel(
                 rs.getInt("cardnumber"),
                 rs.getInt("cvv"),
                 String.valueOf(rs.getDate("expirydate")),
@@ -95,13 +94,12 @@ public class Database {
     public ArrayList<PaypalModel> loadPaypal() {
         ArrayList<PaypalModel> plist = new ArrayList<>();
         String query = "exec spGetPaypal ?";
-        PaypalModel pm = null;
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-                pm = new PaypalModel(
+                PaypalModel pm = new PaypalModel(
                         rs.getString("email"),
                         rs.getString("ppass"),
                         rs.getInt("balance")

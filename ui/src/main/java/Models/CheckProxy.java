@@ -35,7 +35,7 @@ public class CheckProxy implements WindowP , Iterable {
         return new CreditCardIterator(cards);
     }
 
-    public PaypalIterator createPaypalIterator() {
+    private PaypalIterator createPaypalIterator() {
         return new PaypalIterator(paypalAccounts);
     }
 
@@ -48,7 +48,7 @@ public class CheckProxy implements WindowP , Iterable {
             if(it.getCurr().getAmount() >= amount)
                 return true;
         }
-        // iterating through paypal accounts
+        // iterating through PayPal accounts
         PaypalIterator pit = createPaypalIterator();
         for (pit.init(); pit.hasNext(); pit.next()) {
             System.out.println("paypal balance is " + pit.getCurr().getAmount());

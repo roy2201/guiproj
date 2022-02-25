@@ -24,7 +24,7 @@ public class LoginController {
     @FXML
     private TextField unamefield;
 
-    private LoginModel loginModel;
+    final private LoginModel loginModel;
 
     public LoginController() {
         loginModel = new LoginModel();

@@ -1,7 +1,6 @@
 package Models;
 
 import com.example.mainapp.Database;
-import lombok.extern.java.Log;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

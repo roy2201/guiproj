@@ -8,10 +8,10 @@ import lombok.Setter;
 public class CarModel {
 
     private String color, model, type, location;
-    private int year, price, carid;
+    private int year, price, carId;
 
-    public CarModel(int carid, String color, String model, String type, String location, int year, int price) {
-        this.carid = carid;
+    public CarModel(int carId, String color, String model, String type, String location, int year, int price) {
+        this.carId = carId;
         this.color = color;
         this.model = model;
         this.type = type;

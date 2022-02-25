@@ -17,53 +17,52 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AdminController implements Initializable {
 
-    Employee e;
+    private Employee e;
     private int adding;
     private int removing;
-    public int viewing;
-    private ManagerModel managerModel = new ManagerModel();
-    /*
-            adding: 1:admin, 2:secretary, 3:driver
-     */
+    private int viewing;
+    final private ManagerModel managerModel = new ManagerModel();
+
     @FXML
-    private Button btnremove;
+    private Button btnRemove;
     @FXML
-    private Button btnadd;
+    private Button btnAdd;
     @FXML
-    private Button btnview;
+    private Button btnView;
     @FXML
     private ToggleGroup employees;
     @FXML
-    private Label labelinfo;
+    private Label labelInfo;
     @FXML
-    private RadioButton rbtnadmin;
+    private RadioButton radioAdminBtn;
     @FXML
-    private RadioButton rbtndriver;
+    private RadioButton radioDriverBtn;
     @FXML
-    private RadioButton rbtnsecretary;
+    private RadioButton radioSecretaryBtn;
     @FXML
-    private TextField txtid;
+    private TextField txtId;
     @FXML
-    private TextField txtusername;
+    private TextField txtUserName;
     @FXML
-    private TextField txtpassword;
+    private TextField txtPassword;
     @FXML
-    private TableView tableInfo;
+    private TableView<?> tableInfo;
     @FXML
     private Button btnGoToAdd;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(LoginModel.admin_secreatry == 2){
-            rbtnadmin.setDisable(true);
+        if (LoginModel.admin_secreatry == 2) {
+            radioAdminBtn.setDisable(true);
         }
     }
 
     public void logOutAction(MouseEvent event) {
-        ((Node)event.getSource()).getScene().getWindow().hide();
+        ((Node) event.getSource()).getScene().getWindow().hide();
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
         Scene scene = null;
@@ -77,158 +76,103 @@ public class AdminController implements Initializable {
         stage.show();
     }
 
-    public void AddEmployeeClicked (){
-        int errorcode;
+    public void AddEmployeeClicked() {
+        int errorCode;
         String msg = "";
-
-        if(rbtnadmin.isSelected()) {
+        if (radioAdminBtn.isSelected()) {
             adding = 1;
-             e = new ManagerModel(txtusername.getText(),txtpassword.getText());
+            e = new ManagerModel(txtUserName.getText(), txtPassword.getText());
         }
-         if(rbtnsecretary.isSelected()) {
+        if (radioSecretaryBtn.isSelected()) {
             adding = 2;
-             e = new ManagerModel(txtusername.getText(),txtpassword.getText());
+            e = new ManagerModel(txtUserName.getText(), txtPassword.getText());
         }
-        if(rbtndriver.isSelected()) {
+        if (radioDriverBtn.isSelected()) {
             adding = 3;
-            e = new Driver(txtusername.getText(),txtpassword.getText());
+            e = new Driver(txtUserName.getText(), txtPassword.getText());
         }
-
-        errorcode = managerModel.AddEmployee(e,LoginModel.admin_secreatry,adding);
-
-        if(LoginModel.admin_secreatry == 1 && adding == 1){
-            if(errorcode == 1)
-                msg = "The new admin is added successfuly";
-            else if(errorcode == -1)
-                msg = "No admin with such ID";
+        errorCode = managerModel.AddEmployee(e, LoginModel.admin_secreatry, adding);
+        if (LoginModel.admin_secreatry == 1 && adding == 1) {
+            if (errorCode == 1) msg = "The new admin is added successfully";
+            else if (errorCode == -1) msg = "No admin with such ID";
+        } else if (LoginModel.admin_secreatry == 1 && adding == 2) {
+            if (errorCode == 1) msg = "The new secretary is added successfully";
+            else if (errorCode == -1) msg = "No admin with such ID";
+        } else if (LoginModel.admin_secreatry == 1 && adding == 3) {
+            if (errorCode == 1) msg = "The new driver is added successfully";
+            else if (errorCode == -1) msg = "No admin with such ID";
+        } else if (LoginModel.admin_secreatry == 2 && adding == 2) {
+            if (errorCode == 1) msg = "The new secretary is added successfully";
+            else if (errorCode == -1) msg = "No secretary with such ID";
+        } else if (LoginModel.admin_secreatry == 2 && adding == 3) {
+            if (errorCode == 1) msg = "The new driver is added successfully";
+            else if (errorCode == -1) msg = "No secretary with such ID";
         }
-
-        else if(LoginModel.admin_secreatry == 1 && adding == 2){
-            if(errorcode ==1)
-                msg = "The new secretary is added successfuly";
-            else if(errorcode == -1)
-                msg = "No admin with such ID";
-        }
-
-        else if (LoginModel.admin_secreatry == 1 && adding == 3){
-            if(errorcode == 1)
-                msg = "The new driver is added successfuly";
-            else if(errorcode == -1)
-                msg = "No admin with such ID";
-        }
-
-        else if(LoginModel.admin_secreatry == 2 && adding == 2){
-            if(errorcode == 1)
-                msg = "The new secretary is added successfuly";
-            else if(errorcode == -1)
-                msg = "No secretary with such ID";
-        }
-
-        else if(LoginModel.admin_secreatry == 2 && adding == 3){
-            if(errorcode == 1)
-                msg = "The new driver is added successfuly";
-            else if(errorcode == -1)
-                msg = "No secretary with such ID";
-        }
-
-        labelinfo.setText(msg);
-
+        labelInfo.setText(msg);
     }
 
-    public void RemovedEmployeeClicked(ActionEvent event){
-
-        int errorcode;
-        String msg = "";
-
-        if(rbtnadmin.isSelected()) {
+    public void RemovedEmployeeClicked() {
+        int errorCode;
+        AtomicReference<String> msg = new AtomicReference<>("");
+        if (radioAdminBtn.isSelected()) {
             removing = 1;
         }
-        if(rbtnsecretary.isSelected()) {
+        if (radioSecretaryBtn.isSelected()) {
             removing = 2;
         }
-        if(rbtndriver.isSelected()) {
+        if (radioDriverBtn.isSelected()) {
             removing = 3;
         }
-
-        errorcode = managerModel.RemoveEmployee(txtid.getText(),LoginModel.admin_secreatry,removing);
-
-        if(LoginModel.admin_secreatry == 1 && removing == 1){
-            if(errorcode == -2)
-                msg = "Cant remove admin, this admin is refered to anaother manager";
-            else if(errorcode == -1)
-                msg = "No admin with such ID";
-            else if(errorcode == 0)
-                msg = "No admin with such ID to be removed";
-            else if(errorcode == 1)
-                msg = "The admin is removed successfully";
+        errorCode = managerModel.RemoveEmployee(txtId.getText(), LoginModel.admin_secreatry, removing);
+        if (LoginModel.admin_secreatry == 1 && removing == 1) {
+            if (errorCode == -2) msg.set("Cant remove admin, this admin is referred to another manager");
+            else if (errorCode == -1) msg.set("No admin with such ID");
+            else if (errorCode == 0) msg.set("No admin with such ID to be removed");
+            else if (errorCode == 1) msg.set("The admin is removed successfully");
         }
-
-        if(LoginModel.admin_secreatry == 1 && removing == 2){
-            if(errorcode == -2)
-                msg = "Cant remove secretary, this secretary is refered to anaother manager";
-            else if(errorcode == -1)
-                msg = "No admin with such ID";
-            else if(errorcode == 0)
-                msg = "No secretary with such ID to be removed";
-            else if(errorcode == 1)
-                msg = "The secretary is removed successfully";
+        if (LoginModel.admin_secreatry == 1 && removing == 2) {
+            if (errorCode == -2) msg.set("Cant remove secretary, this secretary is referred to another manager");
+            else if (errorCode == -1) msg.set("No admin with such ID");
+            else if (errorCode == 0) msg.set("No secretary with such ID to be removed");
+            else if (errorCode == 1) msg.set("The secretary is removed successfully");
         }
-
-        if(LoginModel.admin_secreatry == 1 && removing == 3){
-            if(errorcode == -2)
-                msg = "Cant remove driver, this driver is refered to anaother manager";
-            else if(errorcode == -1)
-                msg = "No admin with such ID";
-            else if(errorcode == 0)
-                msg = "No driver with such ID to be removed";
-            else if(errorcode == 1)
-                msg = "The driver is removed successfully";
+        if (LoginModel.admin_secreatry == 1 && removing == 3) {
+            if (errorCode == -2) msg.set("Cant remove driver, this driver is referred to another manager");
+            else if (errorCode == -1) msg.set("No admin with such ID");
+            else if (errorCode == 0) msg.set("No driver with such ID to be removed");
+            else if (errorCode == 1) msg.set("The driver is removed successfully");
         }
-
-        if(LoginModel.admin_secreatry == 2 && removing == 2){
-            if(errorcode == -2)
-                msg = "Cant remove secretary, this secretary is refered to anaother manager";
-            else if(errorcode == -1)
-                msg = "No secretary with such ID";
-            else if(errorcode == 0)
-                msg = "No secretary with such ID to be removed";
-            else if(errorcode == 1)
-                msg = "The secreatry is removed successfully";
+        if (LoginModel.admin_secreatry == 2 && removing == 2) {
+            if (errorCode == -2) msg.set("Cant remove secretary, this secretary is referred to another manager");
+            else if (errorCode == -1) msg.set("No secretary with such ID");
+            else if (errorCode == 0) msg.set("No secretary with such ID to be removed");
+            else if (errorCode == 1) msg.set("The secretary is removed successfully");
         }
-
-        if(LoginModel.admin_secreatry == 2 && removing == 3){
-            if(errorcode == -2)
-                msg = "Cant remove driver, this driver is refered to anaother manager";
-            else if(errorcode == -1)
-                msg = "No secretary with such ID";
-            else if(errorcode == 0)
-                msg = "No driver with such ID to be removed";
-            else if(errorcode == 1)
-                msg = "The driver is removed successfully";
+        if (LoginModel.admin_secreatry == 2 && removing == 3) {
+            if (errorCode == -2) msg.set("Cant remove driver, this driver is referred to another manager");
+            else if (errorCode == -1) msg.set("No secretary with such ID");
+            else if (errorCode == 0) msg.set("No driver with such ID to be removed");
+            else if (errorCode == 1) msg.set("The driver is removed successfully");
         }
-
-        labelinfo.setText(msg);
+        labelInfo.setText(msg.get());
     }
 
-    public void ViewEmployeeClicked(ActionEvent event){
-
+    public void ViewEmployeeClicked() {
         tableInfo.getColumns().clear();
-
-        if(rbtnadmin.isSelected()) {
+        if (radioAdminBtn.isSelected()) {
             viewing = 1;
         }
-        if(rbtnsecretary.isSelected()) {
+        if (radioSecretaryBtn.isSelected()) {
             viewing = 2;
         }
-        if(rbtndriver.isSelected()) {
+        if (radioDriverBtn.isSelected()) {
             viewing = 3;
         }
-
-        managerModel.ViewEmployee(tableInfo,LoginModel.admin_secreatry,viewing);
+        managerModel.ViewEmployee(tableInfo, LoginModel.admin_secreatry, viewing);
     }
 
-    public void GoToCarMode(ActionEvent event){
-        ((Node)event.getSource()).getScene().getWindow().hide();
+    public void GoToCarMode(ActionEvent event) {
+        ((Node) event.getSource()).getScene().getWindow().hide();
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddRemoveCar.fxml"));
         Scene scene = null;
