@@ -101,9 +101,9 @@ public class ChannelController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    /* end of navigation functions */
+    /* END OF NAVIGATION FUNCTIONS */
 
-    /* inner class customer */
+    /* INNER CLASS CUSTOMER */
     private class Customer implements Observer {
 
         final private ChannelModel model;

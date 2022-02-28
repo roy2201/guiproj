@@ -4,7 +4,6 @@ import Models.CheckProxy;
 import Models.DCModel;
 import Models.LoginModel;
 import Models.PaymentContext;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

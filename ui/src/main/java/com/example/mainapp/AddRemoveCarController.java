@@ -41,6 +41,7 @@ public class AddRemoveCarController {
     @FXML
     private TextField txtYear;
 
+    //RESET FUNCTIONS
     private void resetTextFields(TextField... t) {
         for (TextField textField : t) {
             textField.setText("");
@@ -50,6 +51,7 @@ public class AddRemoveCarController {
     private void resetLabel(Label l) {
         l.setText("");
     }
+    //END RESET
 
     @FXML
     void AddCarClicked() {

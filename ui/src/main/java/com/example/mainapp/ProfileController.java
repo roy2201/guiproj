@@ -18,7 +18,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,7 +39,7 @@ public class ProfileController implements Initializable {
         showName();
     }
 
-    public void showName() {
+    private void showName() {
         usernameLabel.setText(pm.getName(LoginModel.getLogged()));
     }
 

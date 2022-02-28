@@ -6,12 +6,11 @@ import java.sql.*;
 
 public class ProfileModel {
 
-    private Database db;
     private Connection con;
 
     public ProfileModel() {
         try {
-            db = Database.getInstance();
+            Database db = Database.getInstance();
             con = db.connect();
         }catch (SQLException e) {
             e.printStackTrace();

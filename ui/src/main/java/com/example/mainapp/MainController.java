@@ -24,6 +24,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainController implements Initializable {
 
@@ -128,7 +129,7 @@ public class MainController implements Initializable {
         }
         try {
             ResultSet rs = mainModel.loadFilteredResults(modelComboBox.getValue(), locationComboBox.getValue());
-            caridColumn.setCellValueFactory(new PropertyValueFactory<>("carid"));
+            caridColumn.setCellValueFactory(new PropertyValueFactory<>("carId"));
             modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
             typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
             yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
@@ -137,19 +138,19 @@ public class MainController implements Initializable {
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
             carsTable.getColumns().addAll(caridColumn, modelColumn, typeColumn, yearColumn, colorColumn, locationColumn, priceColumn);
             ObservableList<CarModel> car = FXCollections.observableArrayList();
-            boolean found = false;
+            AtomicBoolean found = new AtomicBoolean(false);
             while (true) {
                 try {
                     if (!rs.next()) break;
                     car.add(new CarModel(rs.getInt(1), rs.getString("ccolor"), rs.getString("cmodel"), rs.getString("ctype"), rs.getString("bname"), rs.getInt("cyear"), rs.getInt("cprice")));
                     carsTable.setItems(car);
                     System.out.println("-----------------test");
-                    found = true;
+                    found.set(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (!found) {
+            if (!found.get()) {
                 errorLabel.setText("No matches");
                 errorLabel.setTextFill(Color.RED);
             } else {

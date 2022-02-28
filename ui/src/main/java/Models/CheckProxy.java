@@ -6,6 +6,7 @@ import com.example.mainapp.Database;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CheckProxy implements WindowP , Iterable {
 

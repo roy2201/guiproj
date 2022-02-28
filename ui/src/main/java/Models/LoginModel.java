@@ -91,16 +91,13 @@ public class LoginModel {
             CallableStatement cs = con.prepareCall(query);
             cs.setString(1, secreatryName);
             cs.setString(2, secretaryPass);
-
             cs.registerOutParameter(3, Types.INTEGER);
             cs.registerOutParameter(4, Types.INTEGER);
             cs.execute();
             secretary_logged_id = cs.getInt(3);
             errorcode = cs.getInt(4);
-
             admin_secreatry = 2;
             return errorcode;
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

@@ -12,7 +12,6 @@ import java.sql.Types;
 
 @Getter
 @Setter
-@SuppressWarnings("all")
 public class CreditCardModel implements PaymentStrategy {
 
     private int cardNumber, cvv;
@@ -52,6 +51,7 @@ public class CreditCardModel implements PaymentStrategy {
         this.expiryDate = expiryDate;
         this.cardHolderName = cardHolderName;
     }
+
     @Override
     public boolean pay(int amount) {
         System.out.println("Payed "+amount +" dollars in credit card");

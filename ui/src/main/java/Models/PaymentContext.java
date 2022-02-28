@@ -31,17 +31,16 @@ public class PaymentContext {
 
     public boolean checkPremium(int cid) {
         String query = "exec isPremium ?, ?";
-        boolean premium = false;
         try {
             CallableStatement cst = con.prepareCall(query);
             cst.setInt(1, cid);
             cst.registerOutParameter(2, Types.BOOLEAN);
             cst.execute();
-            premium = cst.getBoolean(2);
+            return cst.getBoolean(2);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return premium;
+        return false;
     }
 
     public int calculateTotal(int carId, int nbDays) {

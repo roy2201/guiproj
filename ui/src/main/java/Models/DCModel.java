@@ -12,7 +12,6 @@ public class DCModel {
 
     private static int cid;
     private static int nbDays;
-
     private final Connection con;
 
     public DCModel() {
@@ -41,7 +40,6 @@ public class DCModel {
     public static void setNbDays(int nbDays) {
         DCModel.nbDays = nbDays;
     }
-
 
     public ResultSet loadCarInformation(int cid) throws SQLException {
         String query = "select * from vwCarsAndBranch where crid = ?";

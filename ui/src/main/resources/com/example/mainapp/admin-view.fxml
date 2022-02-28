@@ -13,18 +13,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="470.0" prefWidth="720.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mainapp.AdminController">
+<AnchorPane prefHeight="470.0" prefWidth="720.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mainapp.AdminController">
    <children>
       <TableView fx:id="tableInfo" layoutX="358.0" layoutY="126.0" prefHeight="330.0" prefWidth="349.0" style="-fx-border-color: gray;" />
-      <TextField fx:id="txtUserName" layoutX="33.0" layoutY="64.0" promptText="username" style="-fx-border-color: gray;">
-         <font>
-            <Font name="Cambria" size="14.0" />
-         </font></TextField>
-      <PasswordField fx:id="txtPassword" layoutX="227.0" layoutY="65.0" promptText="password" style="-fx-border-color: gray;">
-         <font>
-            <Font size="14.0" />
-         </font></PasswordField>
-      <Button fx:id="btnGoToAdd" layoutX="543.0" layoutY="81.0" mnemonicParsing="false" onAction="#GoToCarMode" prefHeight="27.0" prefWidth="97.0" style="-fx-background-color: lightblue; -fx-border-color: black;" text="Add Car">
+      <Button fx:id="btnGoToAdd" layoutX="543.0" layoutY="81.0" mnemonicParsing="false" onAction="#GoToCarMode" prefHeight="27.0" prefWidth="97.0" text="Add Car">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
@@ -34,12 +26,12 @@
          </image>
       </ImageView>
       <Label fx:id="labelInfo" layoutX="33.0" layoutY="14.0" prefHeight="38.0" prefWidth="370.0" />
-      <TextField fx:id="txtId" layoutX="33.0" layoutY="126.0" promptText="to remove id" style="-fx-border-color: gray;">
+      <TextField fx:id="txtId" layoutX="199.0" layoutY="60.0" prefHeight="30.0" prefWidth="164.0" promptText="to remove id" style="-fx-border-color: gray;">
          <font>
             <Font name="Cambria" size="14.0" />
          </font>
       </TextField>
-      <VBox layoutX="183.0" layoutY="188.0" prefHeight="62.0" prefWidth="86.0">
+      <VBox layoutX="207.0" layoutY="251.0" prefHeight="62.0" prefWidth="86.0">
          <children>
             <RadioButton fx:id="radioAdminBtn" mnemonicParsing="false" text="Admin">
                <toggleGroup>
@@ -66,20 +58,38 @@
             <Image url="@../../../png/logout.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnRemove" layoutX="33.0" layoutY="282.0" mnemonicParsing="false" onAction="#RemovedEmployeeClicked" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: gray;" text="Remove" textFill="#563939">
-         <font>
-            <Font name="Cambria" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnAdd" layoutX="33.0" layoutY="235.0" mnemonicParsing="false" onAction="#AddEmployeeClicked" prefHeight="30.0" prefWidth="126.0" style="-fx-border-color: gray;" text="Add">
-         <font>
-            <Font name="Cambria" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnView" layoutX="33.0" layoutY="188.0" mnemonicParsing="false" onAction="#ViewEmployeeClicked" prefHeight="30.0" prefWidth="126.0" style="-fx-border-color: gray;" text="View">
-         <font>
-            <Font name="Cambria" size="14.0" />
-         </font>
-      </Button>
+      <VBox alignment="CENTER" layoutX="57.0" layoutY="211.0" prefHeight="144.0" prefWidth="113.0" spacing="10.0">
+         <children>
+            <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#RemovedEmployeeClicked" prefHeight="30.0" prefWidth="125.0" text="Remove" textFill="#563939">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddEmployeeClicked" prefHeight="30.0" prefWidth="126.0" text="Add">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnView" mnemonicParsing="false" onAction="#ViewEmployeeClicked" prefHeight="30.0" prefWidth="126.0" text="View">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="14.0" layoutY="40.0" prefHeight="110.0" prefWidth="164.0" spacing="10.0">
+         <children>
+            <TextField fx:id="txtUserName" prefHeight="30.0" prefWidth="143.0" promptText="username" style="-fx-border-color: gray;">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="txtPassword" promptText="password" style="-fx-border-color: gray;">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </PasswordField>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
