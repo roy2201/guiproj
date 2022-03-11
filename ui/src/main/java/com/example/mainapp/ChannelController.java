@@ -31,7 +31,7 @@ public class ChannelController implements Initializable {
     private Label errorLabel;
 
     public ChannelController() {
-        System.out.println("Constructor ++++++++++++");
+        //System.out.println("Constructor ++++++++++++");
         model = new ChannelModel();
         Customer ct = new Customer(model);
         model.addObserver(ct);
@@ -115,7 +115,7 @@ public class ChannelController implements Initializable {
         @Override
         public void update(Observable o, Object arg) {
             if (o == model) {
-                System.out.println("I am updating");
+                //System.out.println("I am updating");
                 commentListView.getItems().clear();
                 commentListView.getItems().addAll(model.getComments());
             }

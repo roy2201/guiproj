@@ -41,6 +41,7 @@ public class CheckProxy implements WindowP , Iterable {
     }
 
     @Override
+    //proxy method
     public boolean checkBalance(int cid) {
         // iterating through credit cards
         CreditCardIterator it = createIterator();
