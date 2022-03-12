@@ -31,7 +31,7 @@ public class SignupController {
     private TextField username;
 
     //constructor, new model
-    SignupController(){
+    public SignupController(){
         signUpModel = new SignupModel();
     }
 

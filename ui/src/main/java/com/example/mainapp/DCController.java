@@ -135,7 +135,6 @@ public class DCController implements Initializable {
         }
     }
 
-
     //return total amount should be paid
     //initialize static values
     private int getAmount() {

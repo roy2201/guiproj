@@ -43,18 +43,18 @@
                   <Image url="@../../../png/cont.png" />
                </image>
             </ImageView>
-            <Label fx:id="errorLabel" layoutX="144.0" layoutY="82.0" prefHeight="40.0" prefWidth="370.0" textAlignment="CENTER" textFill="RED">
+            <Label fx:id="errorLabel" layoutX="134.0" layoutY="90.0" prefHeight="40.0" prefWidth="370.0" textAlignment="CENTER" textFill="RED">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="126.0" layoutY="33.0" prefHeight="54.0" prefWidth="287.0">
+            <HBox alignment="CENTER" layoutX="134.0" layoutY="16.0" prefHeight="54.0" prefWidth="287.0" spacing="5.0">
                <children>
-                  <ComboBox fx:id="modelComboBox" prefHeight="27.0" prefWidth="125.0" promptText="Model" style="-fx-background-color: lightblue; -fx-border-color: black;" />
                   <ComboBox fx:id="locationComboBox" prefHeight="27.0" prefWidth="124.0" promptText="Location" style="-fx-background-color: lightblue; -fx-border-color: black;" />
+                  <ComboBox fx:id="modelComboBox" prefHeight="27.0" prefWidth="125.0" promptText="Model" style="-fx-background-color: lightblue; -fx-border-color: black;" />
                </children>
             </HBox>
-            <VBox layoutX="447.0" layoutY="16.0" prefHeight="110.0" prefWidth="118.0">
+            <VBox alignment="CENTER" layoutX="447.0" layoutY="16.0" prefHeight="66.0" prefWidth="118.0" spacing="5.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#filterResults" prefHeight="27.0" prefWidth="131.0" style="-fx-background-color: lightblue; -fx-border-color: black;" text="Filter Results">
                      <font>

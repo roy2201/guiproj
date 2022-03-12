@@ -2,7 +2,7 @@
 
 .button {
     -fx-background-color: skyblue;
-    -fx-border-color: ;
+    -fx-border-color: gray;
     -fx-text-fill: black;
     -fx-border-radius: 20;
     -fx-background-radius: 20;

@@ -8,12 +8,12 @@ public class Employee {
     public Employee(){
     }
 
-    public Employee(String username,String password){
+    Employee(String username, String password){
         this.username = username;
         this.password = password;
     }
 
-    public  String getUsername(){
+    String getUsername(){
         return username;
     }
 
