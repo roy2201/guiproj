@@ -13,6 +13,9 @@ public class ChannelModel extends Observable {
     private final ArrayList<String> comments;
     private final Connection con;
 
+    //constructor,
+    //get db connection,
+    //load comments from database
     public ChannelModel() {
         Database db = null;
         try {
@@ -25,20 +28,26 @@ public class ChannelModel extends Observable {
         this.comments = db.loadComments();
     }
 
+    //getter for comments
     public ArrayList<String> getComments() {
         return this.comments;
     }
 
+    //clear arraylist of comments => used to avoid comments duplication
+    //when user reenters the comment channel view.
     public void clearComment() {
         comments.clear();
     }
 
+    //add new comment to list of comments in model
+    //the state will change => observers updated.
     public void addComment(String comment) {
         comments.add(comment);
         setChanged();
         notifyObservers();
     }
 
+    //save logged in user comment to database
     public void saveComment(String comment) {
         String query = "exec spComment ?, ?";
         try {

@@ -43,6 +43,27 @@ public class ProfileController implements Initializable {
         usernameLabel.setText(pm.getName(LoginModel.getLogged()));
     }
 
+    //load all transactions in table view
+    @FXML
+    public void showTranAction() {
+        ResultSet rs = pm.loadTransactions(LoginModel.getLogged());
+        drawTable(rs, tableView);
+    }
+
+    //load all credit cards in table view
+    @FXML
+    public void showCardsAction() {
+        ResultSet rs = pm.loadCards(LoginModel.getLogged());
+        drawTable(rs, tableView);
+    }
+
+    //load all payPal accounts in table view
+    public void showPaypalAction() {
+        ResultSet rs = pm.loadPaypalAccounts(LoginModel.getLogged());
+        drawTable(rs, tableView);
+    }
+
+    //nav functions
     @FXML
     public void backAction(ActionEvent event) {
         ((Node) event.getSource()).getScene().getWindow().hide();
@@ -74,19 +95,9 @@ public class ProfileController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    //end nav
 
-    @FXML
-    public void showTranAction() {
-        ResultSet rs = pm.loadTransactions(LoginModel.getLogged());
-        drawTable(rs, tableView);
-    }
-
-    @FXML
-    public void showCardsAction() {
-        ResultSet rs = pm.loadCards(LoginModel.getLogged());
-        drawTable(rs, tableView);
-    }
-
+    //draw result set on table view
     private void drawTable(ResultSet rs, TableView tableView) {
         tableView.getColumns().clear();
         ObservableList<ObservableList> data = FXCollections.observableArrayList();

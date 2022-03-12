@@ -32,6 +32,10 @@ public class DCController implements Initializable {
     @FXML
     private Label errorLabel;
 
+    static int total;
+    static boolean isPremium;
+
+    //initialize list view
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DCModel dcModel = new DCModel();
@@ -69,21 +73,7 @@ public class DCController implements Initializable {
 
     }
 
-    public void backAction2(MouseEvent event) {
-        ((Node)event.getSource()).getScene().getWindow().hide();
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("cars-view.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Rent a car");
-        stage.setScene(scene);
-        stage.show();
-    }
-
+    //nav functions
     @FXML
     public void commentAction(MouseEvent event) {
         ((Node)event.getSource()).getScene().getWindow().hide();
@@ -100,18 +90,22 @@ public class DCController implements Initializable {
         stage.show();
     }
 
-    @FXML
-    public void checkBalance(MouseEvent event) {
-        CheckProxy cp = new CheckProxy(getAmount());
-        if(cp.checkBalance(LoginModel.getLogged())) {
-            viewReceiptAction(event);
-        } else {
-            errorLabel.setText("Insufficient balance detection\nCanceling redirection to payment");
+    public void backAction2(MouseEvent event) {
+        ((Node)event.getSource()).getScene().getWindow().hide();
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("cars-view.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        stage.setTitle("Rent a car");
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void viewReceiptAction(MouseEvent event) {
-        DCModel.setNbDays(daysToRentSpinner.getValue());
         ((Node)event.getSource()).getScene().getWindow().hide();
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("payment-view.fxml"));
@@ -125,18 +119,43 @@ public class DCController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    //end nav
 
-    private int getAmount() {
-        PaymentContext paymentContext = new PaymentContext();
-        int nbDays = DCModel.getNbDays();
-        int carId = DCModel.getCarId();
-        int total = paymentContext.calculateTotal(carId, nbDays);
-        boolean premium = paymentContext.checkPremium(LoginModel.getLogged());
-        float discount = 0.0F;
-        if(premium) {
-            discount = (float) (total * 0.25);
+    //uses proxy => create a proxy object and give it amount should be paid
+    //it will handle the creation of new window in case not enough balance detected.
+    @FXML
+    public void checkBalance(MouseEvent event) {
+        CheckProxy cp = new CheckProxy(getAmount());
+        if(cp.checkBalance()) {
+            //System.out.println("Enough balance");
+            viewReceiptAction(event);
+        } else {
+            errorLabel.setText("Insufficient balance detection\n" +
+                                "Canceling redirection to payment");
         }
-        return (int) (total - discount);
+    }
+
+
+    //return total amount should be paid
+    //initialize static values
+    private int getAmount() {
+        int discount, nbDays, carId;
+        PaymentContext paymentContext = new PaymentContext();
+        DCModel.setNbDays(daysToRentSpinner.getValue());
+        nbDays = DCModel.getNbDays();
+        carId = DCModel.getCarId();
+        //System.out.println("days are " + nbDays);
+        //System.out.println("id is " + carId);
+        total = paymentContext.calculateTotal(carId, nbDays);
+        //System.out.println("total " + total);
+        isPremium = paymentContext.checkPremium(LoginModel.getLogged());
+        if(isPremium) {
+            discount = (int) (total * 0.25);
+            //System.out.println("discount " + discount);
+        } else {
+            discount = 0;
+        }
+        return total - discount;
     }
 
 }

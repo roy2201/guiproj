@@ -9,48 +9,53 @@ import java.util.ArrayList;
 
 public class Database {
 
-    private static Database databaseInstance;
-    public static Connection connection;
+    private static Database dbInstance;
+    public static Connection con;
 
     private Database() {
     }
 
+    //constant connection values
     private static final String USERNAME = "sa";
     private static final String PASSWORD = "rooter-01101";
     private static final String CONN_STR = "jdbc:sqlserver://localhost\\sqlexpress:1433;databaseName=sparkrentdb";
 
+    //return the instance if exists, otherwise created new one
     public static Database getInstance() throws SQLException {
-        if (databaseInstance == null) {
+        if (dbInstance == null) {
             System.out.println("Getting your instance");
-            databaseInstance = new Database();
+            dbInstance = new Database();
         }
-        return databaseInstance;
+        return dbInstance;
     }
 
+    //actual database connection establishing
     public Connection connect() {
         try {
             System.out.println("Connecting");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(CONN_STR, USERNAME, PASSWORD);
+            con = DriverManager.getConnection(CONN_STR, USERNAME, PASSWORD);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            connection = null;
+            con = null;
         }
-        if (connection == null) {
+        if (con == null) {
             System.out.println("Null connection");
             System.exit(1);
         }
         else System.out.println("Connected");
-        return connection;
+        return con;
     }
 
-    private final ArrayList<String> comments = new ArrayList<>();
+    //get all comments stored in database
+    //used in channel model to load all comments
     public ArrayList<String> loadComments() {
+        ArrayList<String> comments = new ArrayList<>();
         String query = "select * from vwUnameWithComment";
-        ResultSet rs = null;
         PreparedStatement ps;
+        ResultSet rs = null;
         try {
-            ps = connection.prepareStatement(query);
+            ps = con.prepareStatement(query);
             rs = ps.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,11 +73,12 @@ public class Database {
         return comments;
     }
 
+    //get all credit cards for specific customer into arraylist
     public ArrayList<CreditCardModel> loadCards() {
         ArrayList<CreditCardModel> cards = new ArrayList<>();
         String query = "exec spGetCards ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
@@ -91,11 +97,12 @@ public class Database {
         return cards;
     }
 
+    //get all paypal accounts to specific customer
     public ArrayList<PaypalModel> loadPaypal() {
         ArrayList<PaypalModel> plist = new ArrayList<>();
         String query = "exec spGetPaypal ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {

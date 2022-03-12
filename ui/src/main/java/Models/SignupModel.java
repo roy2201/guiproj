@@ -24,6 +24,9 @@ public class SignupModel {
         con = db.connect();
     }
 
+    //register new client => add client record to database
+    //many values can be checked before adding to database
+    //checking if name is not number , verify pass, ...
     public int registerClient(String uname, String password) {
         AtomicInteger errorCode = new AtomicInteger();
         String query = "exec spSignUp ?,?,?";

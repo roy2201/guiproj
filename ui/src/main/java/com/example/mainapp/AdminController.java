@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**CHECKED**/
 public class AdminController implements Initializable {
 
     private Employee e;
@@ -54,6 +55,7 @@ public class AdminController implements Initializable {
     @FXML
     private Button btnGoToAdd;
 
+    //disable remove admin radio button if secretary logged in
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (LoginModel.admin_secreatry == 2) {
@@ -61,21 +63,7 @@ public class AdminController implements Initializable {
         }
     }
 
-    public void logOutAction(MouseEvent event) {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Rent a car");
-        stage.setScene(scene);
-        stage.show();
-    }
-
+    //add new employee, take parent into consideration
     public void AddEmployeeClicked() {
         int errorCode;
         String msg = "";
@@ -111,6 +99,7 @@ public class AdminController implements Initializable {
         labelInfo.setText(msg);
     }
 
+    //remove employee; secretary or admin
     public void RemovedEmployeeClicked() {
         int errorCode;
         AtomicReference<String> msg = new AtomicReference<>("");
@@ -157,6 +146,7 @@ public class AdminController implements Initializable {
         labelInfo.setText(msg.get());
     }
 
+    //view all added employees for specific manager or secretary
     public void ViewEmployeeClicked() {
         tableInfo.getColumns().clear();
         if (radioAdminBtn.isSelected()) {
@@ -169,6 +159,22 @@ public class AdminController implements Initializable {
             viewing = 3;
         }
         managerModel.ViewEmployee(tableInfo, LoginModel.admin_secreatry, viewing);
+    }
+
+    //nav functions
+    public void logOutAction(MouseEvent event) {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Rent a car");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void GoToCarMode(ActionEvent event) {
@@ -185,5 +191,6 @@ public class AdminController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    //end nav
 
 }

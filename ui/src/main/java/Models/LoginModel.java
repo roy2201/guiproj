@@ -11,10 +11,12 @@ public class LoginModel {
 
     private static int cid;
 
+    //make then accessible through methods
     static int admin_logged_id;
     static int secretary_logged_id;
     public static int admin_secreatry;
 
+    //get db connection
     public LoginModel() {
         try {
             db = Database.getInstance();
@@ -24,14 +26,17 @@ public class LoginModel {
         con = db.connect();
     }
 
+    //getter for id of logged in user
     public static int getLogged() {
         return LoginModel.cid;
     }
 
+    //setter for id login
     public static void setLogged(int cid) {
         LoginModel.cid = cid;
     }
 
+    //verify user login
     public int validLogin(String uname, String password) {
         int errorcode = 0;
         cid = -1;
@@ -51,9 +56,10 @@ public class LoginModel {
         return errorcode;
     }
 
+    //log out user, change status in tblLogged
     public void logout(int cid) {
         String query = "exec spLogout ?";
-        System.out.println("test");
+        //System.out.println("test");
         try {
             CallableStatement cst = con.prepareCall(query);
             cst.setInt(1,cid);
@@ -63,6 +69,7 @@ public class LoginModel {
         }
     }
 
+    //verify admin login
     public int validAdmin(String adminName, String adminPass) {
         int errorcode = 0;
         String query = "exec dbo.spAdminLogin ?,?,?,?";
@@ -84,12 +91,13 @@ public class LoginModel {
         return errorcode;
     }
 
-    public int validSecretary(String secreatryName, String secretaryPass) {
+    //verify secretary login
+    public int validSecretary(String secretaryName, String secretaryPass) {
         int errorcode = 0;
         String query = "exec dbo.spSecretaryLogin ?,?,?,?";
         try {
             CallableStatement cs = con.prepareCall(query);
-            cs.setString(1, secreatryName);
+            cs.setString(1, secretaryName);
             cs.setString(2, secretaryPass);
             cs.registerOutParameter(3, Types.INTEGER);
             cs.registerOutParameter(4, Types.INTEGER);

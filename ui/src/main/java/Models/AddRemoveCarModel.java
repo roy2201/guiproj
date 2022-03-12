@@ -11,6 +11,7 @@ public class AddRemoveCarModel {
 
     private Connection con;
 
+    //constructor, get db connection
     public AddRemoveCarModel() {
         try {
             Database db = Database.getInstance();
@@ -20,6 +21,7 @@ public class AddRemoveCarModel {
         }
     }
 
+    //add new car
     public void AddCar(String branch, String color, String year, String model, String price, String type) {
         String query = "exec dbo.spAddCar ?,?,?,?,?,?";
         try {
@@ -36,6 +38,7 @@ public class AddRemoveCarModel {
         }
     }
 
+    //remove car by id
     public int RemoveCar(String carid) {
         String query = "exec dbo.spRemoveCar ?,?";
         try {

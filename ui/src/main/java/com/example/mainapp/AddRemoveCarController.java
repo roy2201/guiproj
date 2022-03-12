@@ -41,7 +41,7 @@ public class AddRemoveCarController {
     @FXML
     private TextField txtYear;
 
-    //RESET FUNCTIONS
+    //reset functions
     private void resetTextFields(TextField... t) {
         for (TextField textField : t) {
             textField.setText("");
@@ -51,8 +51,10 @@ public class AddRemoveCarController {
     private void resetLabel(Label l) {
         l.setText("");
     }
-    //END RESET
 
+    //end
+
+    //add car
     @FXML
     void AddCarClicked() {
         if (txtBranch.getText().isEmpty() || txtColor.getText().isEmpty() || txtYear.getText().isEmpty() || txtModel.getText().isEmpty() || txtPrice.getText().isEmpty() || txtType.getText().isEmpty()) {
@@ -65,6 +67,7 @@ public class AddRemoveCarController {
         resetTextFields(txtBranch, txtColor, txtYear, txtModel, txtPrice, txtType);
     }
 
+    //remove car by id
     public void RemoveCarClicked() {
         int errorCode;
         AtomicReference<String> msg = new AtomicReference<>("");
@@ -78,11 +81,12 @@ public class AddRemoveCarController {
                 msg.set("The car is removed successfully");
             }
             labelRemove.setText(msg.get());
-            txtCarId.setText("");
+            resetTextFields(txtCarId);
         }
-        labelAdd.setText("");
+        resetLabel(labelAdd);
     }
 
+    //nav functions
     public void BackClicked(MouseEvent event) throws IOException {
         ((Node) event.getSource()).getScene().getWindow().hide();
         Stage stage = new Stage();
@@ -92,4 +96,5 @@ public class AddRemoveCarController {
         stage.setScene(scene);
         stage.show();
     }
+    //end
 }

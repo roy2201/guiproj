@@ -19,6 +19,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
+/**CHECKED**/
 public class ChannelController implements Initializable {
 
     private final ChannelModel model;
@@ -37,11 +38,13 @@ public class ChannelController implements Initializable {
         model.addObserver(ct);
     }
 
+    //load all comments in database on initialization
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         commentListView.getItems().addAll(model.getComments());
     }
 
+    //post comment, customer get updated when he calls it.
     @FXML
     public void postCommentAction() {
         String comment = commentBox.getText();
@@ -55,6 +58,7 @@ public class ChannelController implements Initializable {
         }
     }
 
+    //save comment to database
     @FXML
     public void saveCommentAction() {
         if(!commentBox.getText().isBlank()) {
@@ -68,7 +72,7 @@ public class ChannelController implements Initializable {
         }
     }
 
-    /* NAVIGATION FUNCTIONS */
+    //nav functions
     @FXML
     public void backAction(MouseEvent event) {
         model.clearComment();
@@ -101,9 +105,9 @@ public class ChannelController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    /* END OF NAVIGATION FUNCTIONS */
+    //end nav
 
-    /* INNER CLASS CUSTOMER */
+    //Inner class Customer - Observer - Created as Inner class to get access to list view (i.e: update)
     private class Customer implements Observer {
 
         final private ChannelModel model;

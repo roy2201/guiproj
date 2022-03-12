@@ -21,6 +21,7 @@ public class CreditCardModel implements PaymentStrategy {
 
     Connection con;
 
+    //constructor1
     public CreditCardModel(int cardNumber, int cvv, String expiryDate, String cardHolderName, int amount) {
         Database db = null;
         try {
@@ -37,6 +38,7 @@ public class CreditCardModel implements PaymentStrategy {
         this.amount = amount;
     }
 
+    //constructor2
     public CreditCardModel(int cardNumber, int cvv, String expiryDate, String cardHolderName) {
         Database db = null;
         try {
@@ -52,11 +54,12 @@ public class CreditCardModel implements PaymentStrategy {
         this.cardHolderName = cardHolderName;
     }
 
+    //pay through credit card, handle possible errors
     @Override
     public boolean pay(int amount) {
         System.out.println("Payed "+amount +" dollars in credit card");
         String query = "exec spPayCredit ?, ?, ?";
-        CallableStatement cst = null;
+        CallableStatement cst;
         try {
             cst = con.prepareCall(query);
             cst.setInt(1,amount);
@@ -76,11 +79,11 @@ public class CreditCardModel implements PaymentStrategy {
         return true;
     }
 
+    //validate credit card : check if logged in customer is paying with existing card
     public boolean isValid(int creditCardNumber, int cvv, String expiryDate, String holderName) {
         String query = "exec isValidCreditCard ?, ?, ?, ?, ?";
-        CallableStatement cst = null;
         try {
-            cst = con.prepareCall(query);
+            CallableStatement cst = con.prepareCall(query);
             cst.setString(1, holderName);
             cst.setInt(2, cvv);
             cst.setInt(3, creditCardNumber);
@@ -95,6 +98,7 @@ public class CreditCardModel implements PaymentStrategy {
         return false;
     }
 
+    //add credit card transaction to database, so that the customer can review it anytime
     private void addTransaction() {
         String query = "exec spAddTran ?, ?, ?, ?";
         try {

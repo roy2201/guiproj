@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SignupController implements Initializable {
+public class SignupController {
 
-    SignupModel signUpModel;
+    private final SignupModel signUpModel;
 
     @FXML
     private TextField confirmPass;
@@ -30,11 +30,12 @@ public class SignupController implements Initializable {
     @FXML
     private TextField username;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    //constructor, new model
+    SignupController(){
         signUpModel = new SignupModel();
     }
 
+    //nav functions
     @FXML
     void backToLoginAction(MouseEvent event) {
         ((Node) event.getSource()).getScene().getWindow().hide();
@@ -50,7 +51,9 @@ public class SignupController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    //end nav
 
+    //register as to lowercase in database procedure
     @FXML
     void registerClient(ActionEvent event) {
         if (username.getText().isBlank() || pass.getText().isBlank()) {

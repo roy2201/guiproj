@@ -45,28 +45,28 @@ public class PaymentController implements Initializable {
 
     private int total;
 
+    //initialize list view with receipt
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        int total = DCController.total;
+        boolean isPremium = DCController.isPremium;
         paymentMethodComboBox.getItems().addAll("CreditCard","Paypal");
-        int nbDays = DCModel.getNbDays();
-        int carId = DCModel.getCarId();
-        total = paymentContext.calculateTotal(carId, nbDays);
-        boolean premium = paymentContext.checkPremium(LoginModel.getLogged());
         ArrayList<String> receipt = new ArrayList<>();
         receipt.add("Price : "+ total +" USD");
-        float discount = 0.0F;
-        if(premium){
-            discount = (float) (total * 0.25);
+        int discount;
+        if(isPremium){
+            discount = (int) (total * 0.25);
             receipt.add("Premium : - 25 % : " + discount +" USD");
         } else {
             receipt.add("No premium : -  0 %" );
+            discount = 0;
         }
         this.total = (int) (total - discount);
         receipt.add("total = "+ total + " USD");
         receiptListView.getItems().addAll(receipt);
     }
 
-    /* strategy */
+    //strategy method
     @FXML
     public void payReceiptAction(ActionEvent event) {
 
@@ -116,7 +116,7 @@ public class PaymentController implements Initializable {
         }
     }
 
-    /* navigation functions */
+    //nav functions
     @FXML
     void handleBack(MouseEvent event) {
         ((Node)event.getSource()).getScene().getWindow().hide();
@@ -132,5 +132,6 @@ public class PaymentController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    //end nav
 
 }

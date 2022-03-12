@@ -16,7 +16,10 @@ public class ManagerModel extends Employee {
 
     private Database db;
     private Connection con;
+    private ResultSet rs;
 
+    //constructor
+    //get db connection
     public ManagerModel() {
         try {
             db = Database.getInstance();
@@ -27,6 +30,8 @@ public class ManagerModel extends Employee {
         }
     }
 
+    //constructor
+    //get db connection
     public ManagerModel(String username, String password) {
         super(username, password);
         try {
@@ -37,6 +42,7 @@ public class ManagerModel extends Employee {
         }
     }
 
+    //add new employee, consider parent
     public int AddEmployee(Employee e, int adding, int added) {
         CallableStatement cs;
         int errorCode = 0;
@@ -114,6 +120,7 @@ public class ManagerModel extends Employee {
         return errorCode;
     }
 
+    //remove employee, consider parent
     public int RemoveEmployee(String id_to_remove, int removing, int removed) {
         CallableStatement cs;
         AtomicInteger errorCode = new AtomicInteger();
@@ -188,8 +195,7 @@ public class ManagerModel extends Employee {
         return errorCode.get();
     }
 
-    private ResultSet rs;
-
+    //view employees added by viewing
     public void ViewEmployee(TableView tb, int viewing, int viewed) {
         PreparedStatement ps;
         if (viewing == 1 && viewed == 1) {

@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainController implements Initializable {
 
-    private final LoginModel loginModel = new LoginModel();
+    private final LoginModel loginModel = new LoginModel(); //only to handle logout
     private final MainModel mainModel = new MainModel();
 
     @FXML
@@ -57,6 +57,7 @@ public class MainController implements Initializable {
     private Label errorLabel;
 
 
+    //init
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         viewAllCars();
@@ -64,23 +65,7 @@ public class MainController implements Initializable {
         viewAllModels();
     }
 
-    @FXML
-    public void detailedViewAction(ActionEvent event) {
-        System.out.println("clicked");
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("detailed-view.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Your profile");
-        stage.setScene(scene);
-        stage.show();
-    }
-
+    //load all cars in table view
     public void viewAllCars() {
         carsTable.getColumns().clear();
         ResultSet rs = null;
@@ -111,6 +96,35 @@ public class MainController implements Initializable {
         }
     }
 
+    //load all branches in combo box
+    private void viewAllBranches() {
+        ArrayList<String> branches = new ArrayList<>();
+        try {
+            ResultSet rs = mainModel.loadBranches();
+            while (rs.next()) {
+                branches.add(rs.getString("bname"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        locationComboBox.getItems().addAll(branches);
+    }
+
+    //load all models in combo box
+    private void viewAllModels() {
+        ArrayList<String> models = new ArrayList<>();
+        try {
+            ResultSet rs = mainModel.loadModels();
+            while (rs.next()) {
+                models.add(rs.getString("cmodel"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        modelComboBox.getItems().addAll(models);
+    }
+
+    //view filtered results in table view
     @FXML
     public void filterResults(ActionEvent event) {
         String errorString = "";
@@ -162,30 +176,22 @@ public class MainController implements Initializable {
         }
     }
 
-    private void viewAllBranches() {
-        ArrayList<String> branches = new ArrayList<>();
+    //nav
+    @FXML
+    public void detailedViewAction(ActionEvent event) {
+        System.out.println("clicked");
+        ((Node) event.getSource()).getScene().getWindow().hide();
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("detailed-view.fxml"));
+        Scene scene = null;
         try {
-            ResultSet rs = mainModel.loadBranches();
-            while (rs.next()) {
-                branches.add(rs.getString("bname"));
-            }
-        } catch (SQLException e) {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        locationComboBox.getItems().addAll(branches);
-    }
-
-    private void viewAllModels() {
-        ArrayList<String> models = new ArrayList<>();
-        try {
-            ResultSet rs = mainModel.loadModels();
-            while (rs.next()) {
-                models.add(rs.getString("cmodel"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        modelComboBox.getItems().addAll(models);
+        stage.setTitle("Your profile");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -244,4 +250,5 @@ public class MainController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    //end nav
 }

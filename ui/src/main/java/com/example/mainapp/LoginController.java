@@ -26,10 +26,12 @@ public class LoginController {
 
     final private LoginModel loginModel;
 
+    //constructor
     public LoginController() {
         loginModel = new LoginModel();
     }
 
+    //sign up method => adding new customer
     @FXML
     public void signMeUpAction(ActionEvent event) {
         ((Node)event.getSource()).getScene().getWindow().hide();
@@ -46,6 +48,7 @@ public class LoginController {
         stage.show();
     }
 
+    //sign in method => verify customer login
     @FXML
     public void signInAction(ActionEvent event) {
         // username is case-insensitive
@@ -68,6 +71,7 @@ public class LoginController {
         }
     }
 
+    //admin login method => verify admin login
     @FXML
     void LoginAdmin(MouseEvent event) {
         if(loginModel.validAdmin(unamefield.getText().toLowerCase(),passfield.getText()) == 1) {
@@ -89,6 +93,7 @@ public class LoginController {
         }
     }
 
+    //secretary login method => verify secretary login
     @FXML
     void LoginSecretary(MouseEvent event) {
         if(loginModel.validSecretary(unamefield.getText().toLowerCase(),passfield.getText()) == 1) {

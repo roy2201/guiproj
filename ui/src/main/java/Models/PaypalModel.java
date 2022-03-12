@@ -15,6 +15,7 @@ public class PaypalModel implements PaymentStrategy {
 
     Connection con;
 
+    //constructor1
     public PaypalModel(String email, String password) {
         Database db = null;
         try {
@@ -29,12 +30,14 @@ public class PaypalModel implements PaymentStrategy {
         this.password = password;
     }
 
+    //constructor2
     public PaypalModel(String email, String pass, int balance) {
         this.email = email;
         this.password = pass;
         this.amount = balance;
     }
 
+    //pay through PayPal, handle possible errors
     @Override
     public boolean pay(int amount) {
         String query = "exec spPaypal ?, ?, ?";
@@ -58,6 +61,7 @@ public class PaypalModel implements PaymentStrategy {
         return true;
     }
 
+    //validate if logged in customer have this payPal account added to profile
     public boolean validateInfo(String email, String password) {
         String query = "exec isValidPaypal ?, ?, ?, ?";
         try {
@@ -75,6 +79,7 @@ public class PaypalModel implements PaymentStrategy {
         return false;
     }
 
+    //add paypal transaction to database
     private void addTransaction() {
         String query = "exec spAddTran ?, ?, ?, ?";
         try {
